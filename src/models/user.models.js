@@ -1,6 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+// Loading environment variables from the .env file
+dotenv.config({
+    path: './env' // Assuming the .env file is located in the 'env' directory
+});
 
 // Define the schema for the user
 const userSchema = new mongoose.Schema({
@@ -69,28 +74,55 @@ userSchema.methods.isPasswordCorrect = async function(password) {
     return await bcrypt.compare(password, this.password);
 };
 
+
+
 // Method to generate an access token for the user
 userSchema.methods.generateAccessToken = function() {
+    const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'default_access_secret';
+    const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY || '1h';
+
     // Generating JWT access token with user data and expiration
-    return jwt.sign({
-        _id: this._id,
-        email: this.email,
-        username: this.username,
-        fullname: this.fullname
-    }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-    });
+    return jwt.sign({ _id: this._id, email: this.email, username: this.username, fullname: this.fullname },
+        ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY }
+    );
 };
+
+// const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'default_secret_key';
+// const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY || '1h';
+
+// // Method to generate an access token for the user
+// userSchema.methods.generateAccessToken = function() {
+//     // Generating JWT access token with user data and expiration
+//     return jwt.sign({
+//         _id: this._id,
+//         email: this.email,
+//         username: this.username,
+//         fullname: this.fullname
+//     }, process.env.ACCESS_TOKEN_SECRET, {
+//         expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+//     });
+// };
+
+// Method to generate a refresh token for the user
+// userSchema.methods.generateRefreshToken = function() {
+//     // Generating JWT refresh token with user ID and expiration
+//     return jwt.sign({
+//         _id: this._id
+//     }, process.env.REFRESH_TOKEN_SECRET, {
+//         expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+//     });
+// };
+
 
 // Method to generate a refresh token for the user
 userSchema.methods.generateRefreshToken = function() {
+    const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'default_refresh_secret';
+    const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY || '7d';
+
     // Generating JWT refresh token with user ID and expiration
-    return jwt.sign({
-        _id: this._id
-    }, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+    return jwt.sign({ _id: this._id }, REFRESH_TOKEN_SECRET, {
+        expiresIn: REFRESH_TOKEN_EXPIRY
     });
 };
-
 // Create a Mongoose model based on the schema
 export const User = mongoose.model("User", userSchema);

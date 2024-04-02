@@ -1,49 +1,42 @@
-// Importing necessary modules for creating an Express app
-import express from "express";
-import cors from "cors"; // Middleware for enabling Cross-Origin Resource Sharing (CORS)
-import cookieParser from "cookie-parser"; // Middleware for parsing cookies
+import express from "express"
+import cors from "cors"
+import cookieParser from "cookie-parser"
 
+const app = express()
 
-// Creating an instance of the Express application
-const app = express();
-app.use(express.json());
-
-app.use(express.urlencoded({ extended: true }));
-// Middleware for enabling CORS with specified options
 app.use(cors({
-    origin: process.env.CORS_ORIGIN, // Allowing requests from specified origin (taken from environment variable)
-    credentials: true // Allowing credentials (e.g., cookies, authorization headers) to be sent with requests
-}));
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}))
 
-// // Middleware for parsing JSON request bodies with a size limit of 16kb
-// app.use(express.json({ limit: "16kb" }));
-
-// // Middleware for parsing URL-encoded request bodies with extended mode and a size limit of 16kb
-// app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-
+app.use(express.json({ limit: "16kb" }))
+app.use(express.urlencoded({ extended: true, limit: "16kb" }))
+app.use(express.static("public"))
+app.use(cookieParser())
 
 
-
-// Middleware for serving static files from the "public" directory
-app.use(express.static("public"));
-
-// Middleware for parsing cookies from incoming requests
-app.use(cookieParser());
-
-//routes import 
+//routes import
 import userRouter from './routes/user.routes.js'
+import healthcheckRouter from "./routes/healthcheck.routes.js"
+import tweetRouter from "./routes/tweet.routes.js"
+import subscriptionRouter from "./routes/subscription.routes.js"
+import videoRouter from "./routes/video.routes.js"
+import commentRouter from "./routes/comment.routes.js"
+import likeRouter from "./routes/like.routes.js"
+import playlistRouter from "./routes/playlist.routes.js"
+import dashboardRouter from "./routes/dashboard.routes.js"
 
-
-
-
-//routes declaration 
+//routes declaration
+app.use("/api/v1/healthcheck", healthcheckRouter)
 app.use("/api/v1/users", userRouter)
+app.use("/api/v1/tweets", tweetRouter)
+app.use("/api/v1/subscriptions", subscriptionRouter)
+app.use("/api/v1/videos", videoRouter)
+app.use("/api/v1/comments", commentRouter)
+app.use("/api/v1/likes", likeRouter)
+app.use("/api/v1/playlist", playlistRouter)
+app.use("/api/v1/dashboard", dashboardRouter)
 
+// http://localhost:8000/api/v1/users/register
 
-
-
-
-
-
-// Exporting the Express application instance
-export { app };
+export { app }

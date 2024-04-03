@@ -13,11 +13,11 @@ const getVideoComments = asyncHandler(async(req, res) => {
         if (!videoId) {
             throw new ApiError(400, "Videoid is required")
         }
-
+        console.log("here");
         //set up aggrigate pipeline
         const pipeline = [{
                 $match: {
-                    video: mongoose.Types.ObjectId(videoId)
+                    video: new mongoose.Types.ObjectId(videoId)
                 }
             },
             {
@@ -51,9 +51,10 @@ const getVideoComments = asyncHandler(async(req, res) => {
         }
 
         const { docs, totalDocs, totalPages } = await Comment.aggregatePaginate(pipeline, options);
+        console.log("here");
 
         return res
-            .result(200)
+            .status(200)
             .json(
                 new ApiResponse(200, { comments: docs, totalDocs, totalPages }, "All Comments Fetched")
             )

@@ -15,3 +15,5 @@ router.route("/user/:userId").get(getUserTweets);
 router.route("/:tweetId").patch(updateTweet).delete(deleteTweet);
 
 export default router
+
+//app.use("/api/v1/tweets", tweetRouter)

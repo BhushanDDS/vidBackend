@@ -29,7 +29,7 @@ const createTweet = asyncHandler(async(req, res) => {
     }
     const tweet = await Tweet.create({
         content: tweetContent,
-        ownerIs
+        owner: ownerIs
     })
 
     return res
@@ -58,14 +58,15 @@ const getUserTweets = asyncHandler(async(req, res) => {
                 foreignField: "_id",
                 as: "Alltweets"
             }
-        }, {
+        },
+        { $unwind: '$Alltweets' }, {
             $project: {
-                owner: 1,
-                content: 1,
+                owner: 2,
+                content: 2,
 
             }
-        },
-        { $unwind: '$Alltweets' }
+        }
+
 
     ])
 

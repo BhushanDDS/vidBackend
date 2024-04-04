@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 
+//done
 const getVideoComments = asyncHandler(async(req, res) => {
         //TODO: get all comments for a video
         const { videoId } = req.params

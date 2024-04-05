@@ -17,3 +17,5 @@ router
 router.route("/u/:subscriberId").get(getUserChannelSubscribers);
 
 export default router
+
+//app.use("/api/v1/subscriptions", subscriptionRouter)

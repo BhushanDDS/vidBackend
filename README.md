@@ -1,9 +1,9 @@
-# VidSup -> Video Strimeng platfrm
+# VidSup -> Video streaming platfrm
 
 I've been exited to learn node and how backend work or I must say What is Backend ? 
 taa daa .. My first backend project !! Vidsup is straming platform like YT havind common fuctonalities 
 -> YT source 
-
+https://youtu.be/EH3vGeqeIAo?si=GkLWl5waPwhNPn3E
 
 ## Table of Contents
 
@@ -18,6 +18,7 @@ taa daa .. My first backend project !! Vidsup is straming platform like YT havin
 
  Vidsup is straming platform like YT havind common fuctonalities 
 -> YT source 
+https://youtu.be/EH3vGeqeIAo?si=GkLWl5waPwhNPn3E
 ## Features
 
 User registration and Login 

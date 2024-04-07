@@ -1,4 +1,4 @@
-# VidSup -> Video streaming platfrm
+# VidSup -> Video streaming platform
 
 I've been exited to learn node and how backend work or I must say What is Backend ? 
 taa daa .. My first backend project !! Vidsup is straming platform like YT havind common fuctonalities 

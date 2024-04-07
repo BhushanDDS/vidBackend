@@ -6,14 +6,45 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
-//pending
+//Warning  --->  took reference from Internet for "getAllVideos" method . #notMyCode
 const getAllVideos = asyncHandler(async(req, res) => {
-        const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
-            //TODO: get all videos based on query, sort, pagination
+    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
 
+    // Constructing pagination options
+    const options = {
+        page: parseInt(page),
+        limit: parseInt(limit)
+    };
 
-    })
-    //done ->needs minor fixes
+    // Constructing sort options
+    const sort = {};
+    if (sortBy && sortType) {
+        sort[sortBy] = sortType === 'desc' ? -1 : 1;
+    } else {
+        // Default sorting criteria if not provided
+        sort.createdAt = -1;
+    }
+
+    // Constructing query conditions (if any)
+    const conditions = {};
+    if (query) {
+        // Example: search by video title
+        conditions.title = { $regex: new RegExp(query, 'i') }; // Case-insensitive regex search
+    }
+
+    // Optionally, filter videos by user ID
+    if (userId) {
+        conditions.userId = userId;
+    }
+
+    // Fetch videos based on query, sort, pagination
+    const videos = await Video.paginate(conditions, options);
+
+    // Send the response with paginated videos
+    res.json(videos);
+});
+
+//done ->needs minor fixes
 const publishAVideo = asyncHandler(async(req, res) => {
 
         //get title and description-->req.body 
